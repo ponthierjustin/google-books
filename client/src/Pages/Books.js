@@ -12,7 +12,7 @@ const Books = () => {
     API.getBooks()
       .then((response) => {
         setBooks(response.data.items[0].volumeInfo); 
-        console.log(response.data.items[0])
+        console.log(response.data.items[0]);
       })
       .catch((err) => console.log(err));
   }
