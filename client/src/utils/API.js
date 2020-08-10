@@ -5,5 +5,8 @@ export default {
   getBooks: function (query) {
     return axios.get(BASEURL + query);
   },
+  saveBooks: function(dbData) {
+    return axios.post("/api/books", dbData);
+  },
 
 };
