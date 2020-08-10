@@ -6,11 +6,11 @@ const Home = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    showBooks();
+    showBooks('Pokemon');
   }, []);
 
-  function showBooks() {
-    API.getBooks()
+  function showBooks(query) {
+    API.getBooks(query)
       .then((response) => {
         setBooks(response.data.items); 
         console.log(response.data.items);
