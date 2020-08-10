@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+/* import { Input } from '../Components/Form/Form' */
 import API from "../utils/API";
 
-const Books = () => {
+const Home = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -11,8 +12,8 @@ const Books = () => {
   function showBooks() {
     API.getBooks()
       .then((response) => {
-        setBooks(response.data.items[0].volumeInfo); 
-        console.log(response.data.items[0]);
+        setBooks(response.data.items); 
+        console.log(response.data.items);
       })
       .catch((err) => console.log(err));
   }
@@ -20,12 +21,14 @@ const Books = () => {
     <div>
         <article>
               <h1>Book</h1>
-              <p>
-                {books.title}
-              </p>
+              {books.map(book => (
+                  <p>
+                  {book.volumeInfo.title}
+                </p>
+              ))} 
             </article>
     </div>
   );
 };
 
-export default Books;
+export default Home;
