@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-/* import { Input } from '../Components/Form/Form' */
 import API from "../utils/API";
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -33,16 +36,16 @@ const Home = () => {
   function handleButtonClick(event) {
     event.preventDefault();
     console.log(event.target.value);
-     const { value } = event.target;
-     API.saveBooks({
+    const { value } = event.target;
+    API.saveBooks({
       title: value,
-      author: '{ type: String, required: true }',
-      synopsis: 'String',
+      author: "{ type: String, required: true }",
+      synopsis: "String",
     })
       .then((res) => {
         console.log(res);
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
 
   function showFavoriteBooks() {
@@ -51,42 +54,42 @@ const Home = () => {
         setFavoriteBooks(response.data);
         console.log(response.data);
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
-
   return (
     <div>
-      <article>
-        <h1>Book</h1>
-        <form>
-          <input onChange={handleInputChange} value={search} name="search" />
-          <button onClick={handleFormSubmit}>Search</button>
-        </form>
-
-        {books.map((book) => (
-          <li>
-            <img alt={book.volumeInfo.title} src={book.volumeInfo.imageLinks.thumbnail}></img>
-            {book.volumeInfo.title}
-            <p>{book.volumeInfo.description}</p>
-            <button
-              value={book.volumeInfo.title}   onClick={handleButtonClick}
-            >
-              SAVE
-            </button>
-          </li>
-        ))}
-      </article>
+      <h1>Book</h1>
+      <form>
+        <input onChange={handleInputChange} value={search} name="search" />
+        <button onClick={handleFormSubmit}>Search</button>
+      </form>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {books.map((book) => (
+              <TableRow key={book}>
+                <TableCell component="th" scope="row">
+                  {book.volumeInfo.title}
+                </TableCell>
+                <TableCell align="right">
+                  {book.volumeInfo.description}
+                </TableCell>
+                <TableCell
+                  align="right"
+                  src={book.volumeInfo.imageLinks.thumbnail}
+                ></TableCell>
+                <button value={book.volumeInfo.title} onClick={handleButtonClick}>
+                  SAVE
+                </button>
+              </TableRow>
+            ))}
+          </TableRow>
+        </TableHead>
+      </Table>
       <h1>Favorite Books</h1>
       {favoriteBooks.map((favoriteBook) => (
-          <li>
-            {favoriteBook.title}
-           {/*  <button
-               value={book.selfLink}  onClick={handleButtonClick}
-            >
-              SAVE
-            </button> */}
-          </li>
-        ))}
+        <li>{favoriteBook.title}</li>
+      ))}
     </div>
   );
 };
