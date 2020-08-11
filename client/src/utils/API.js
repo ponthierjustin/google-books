@@ -5,8 +5,10 @@ export default {
   getBooks: function (query) {
     return axios.get(BASEURL + query);
   },
-  saveBooks: function(dbData) {
-    return axios.post("/api/books", dbData);
+  saveBooks: function(bookData) {
+    return axios.post("/api/books", bookData);
   },
-
+  favoriteBooks: function(){
+    return axios.get('api/books');
+  }
 };
