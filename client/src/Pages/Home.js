@@ -5,10 +5,11 @@ import API from "../utils/API";
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
-  const [savedBooks, setSavedBooks] = useState();
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
 
   useEffect(() => {
-    showBooks('Pokemon');
+    showBooks("Pokemon");
+    showFavoriteBooks();
   }, []);
 
   function showBooks(search) {
@@ -29,11 +30,28 @@ const Home = () => {
     showBooks(search);
   }
 
-  function handleButtonClick(event){
+  function handleButtonClick(event) {
     event.preventDefault();
-    console.log("I've BeenClicked");
-    API.saveBooks()
-    
+    console.log(event.target.value);
+     const { value } = event.target; 
+     API.saveBooks({
+      title: value,
+      author: '{ type: String, required: true }',
+      synopsis: 'String',
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  function showFavoriteBooks() {
+    API.favoriteBooks()
+      .then((response) => {
+        setFavoriteBooks(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -41,15 +59,34 @@ const Home = () => {
       <article>
         <h1>Book</h1>
         <form>
-          <input onChange={handleInputChange} value={search} name="search"/>
+          <input onChange={handleInputChange} value={search} name="search" />
           <button onClick={handleFormSubmit}>Search</button>
         </form>
 
         {books.map((book) => (
-          <li>{book.volumeInfo.title}<button onClick={handleButtonClick}>SAVE</button></li>
-          
+          <li>
+            <img src={book.volumeInfo.imageLinks.thumbnail}></img>
+            {book.volumeInfo.title}
+            {book.volumeInfo.description}
+            <button
+               value={book.selfLink}  onClick={handleButtonClick}
+            >
+              SAVE
+            </button>
+          </li>
         ))}
       </article>
+      <h1>Favorite Books</h1>
+      {favoriteBooks.map((favoriteBook) => (
+          <li>
+            {favoriteBook.title}
+           {/*  <button
+               value={book.selfLink}  onClick={handleButtonClick}
+            >
+              SAVE
+            </button> */}
+          </li>
+        ))}
     </div>
   );
 };
