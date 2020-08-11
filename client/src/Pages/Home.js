@@ -33,7 +33,7 @@ const Home = () => {
   function handleButtonClick(event) {
     event.preventDefault();
     console.log(event.target.value);
-     const { value } = event.target; 
+     const { value } = event.target;
      API.saveBooks({
       title: value,
       author: '{ type: String, required: true }',
@@ -51,7 +51,7 @@ const Home = () => {
         setFavoriteBooks(response.data);
         console.log(response.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); 
   }
 
   return (
@@ -65,11 +65,11 @@ const Home = () => {
 
         {books.map((book) => (
           <li>
-            <img src={book.volumeInfo.imageLinks.thumbnail}></img>
+            <img alt={book.volumeInfo.title} src={book.volumeInfo.imageLinks.thumbnail}></img>
             {book.volumeInfo.title}
-            {book.volumeInfo.description}
+            <p>{book.volumeInfo.description}</p>
             <button
-               value={book.selfLink}  onClick={handleButtonClick}
+              value={book.volumeInfo.title}   onClick={handleButtonClick}
             >
               SAVE
             </button>
