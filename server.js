@@ -17,7 +17,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost/gt-react-google-books", {
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
